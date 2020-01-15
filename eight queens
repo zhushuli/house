@@ -1,0 +1,80 @@
+#include<stdio.h>
+#define line 8
+void queen(int i,int j);
+int placement(int i,int j);
+int chessboard[line][line];
+int aa,bb;
+int number=0;
+
+void queen(int i,int j)
+{
+	if(j>=line){
+	return ;
+}
+
+if(placement(i,j)==1)
+{
+
+ chessboard[i][j]=1;//place a queen
+
+ if(i==line-1){//if it is the last line, record it
+ number++;
+    /*test code 
+	
+	 for (aa=0;aa<8;aa++) 
+		 for(bb=0;bb<8;bb++){ 
+		printf("%d",chessboard[aa][bb]); 
+		if(yy==7) 
+			printf("\n"); 
+		} 
+	 printf("\n"); 
+	 
+	result print*/
+}
+
+else{
+	queen(i+1,0);//If not the last line, analyze the next line
+}
+}
+
+chessboard[i][j]=0;//If this position cannot be placed, leave it blank (0) and judge the adjacent grid.
+
+ //If this position can be put, walking here means that the above code has been completely executed, delete the queen (set it to zero), discuss other cases, and try the next position.
+
+ queen(i,j+1);
+
+}
+
+int placement(int i,int j)
+{
+
+int k;
+
+for(k=0;k<line;k++)
+{
+	if(chessboard[i][k]==1) return 0;
+}
+
+for(k=0;k<line;k++)
+{
+if(chessboard[k][j]==1) return 0;
+}
+
+for(k=-line;k<=line;k++){//Two diagonal lines
+
+ 	if(i+k>=0&&i+k<line&&j+k>=0&&j+k<line)
+ 	if(chessboard[i+k][j+k]==1) return 0;
+	if(i-k>=0&&i-k<line&&j+k>=0&&j+k<line)
+	if(chessboard[i-k][j+k]==1) return 0;
+}
+
+return 1;
+
+}
+
+
+int main(){
+	queen(0,0);
+	printf("%d\n",number);
+	return 0;
+}
